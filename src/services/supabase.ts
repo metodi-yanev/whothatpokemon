@@ -22,6 +22,7 @@ const EncryptedStorageAdapter = {
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     storage: EncryptedStorageAdapter,
+    flowType: 'pkce',
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: false,

@@ -1,108 +1,64 @@
 import {useState, useEffect} from 'react';
-import {supabase} from '../services/supabase';
 import {StyleSheet, View, Alert} from 'react-native';
 import {Button, Input, Text} from '@rneui/themed';
 import {Session} from '@supabase/supabase-js';
+import {Icon} from '@rneui/themed';
 
-export default function Account({session}: {session: Session}) {
-  const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState('');
+import AlpacaOrLlama from './AlpacaOrLlama';
+import Profile from './Profile';
+import {colors} from '../theme';
 
-  useEffect(() => {
-    if (session) getProfile();
-  }, [session]);
-
-  async function getProfile() {
-    try {
-      setLoading(true);
-      if (!session?.user) throw new Error('No user on the session!');
-
-      let {data, error, status} = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('id', session?.user.id)
-        .single();
-      if (error && status !== 406) {
-        throw error;
-      }
-
-      if (data) {
-        setUsername(data.username);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        Alert.alert(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function updateProfile({username}: {username: string}) {
-    try {
-      setLoading(true);
-      if (!session?.user) throw new Error('No user on the session!');
-
-      const updates = {
-        id: session?.user.id,
-        username,
-        updated_at: new Date(),
-      };
-
-      let {error} = await supabase.from('profiles').upsert(updates);
-
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        Alert.alert(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
+export default function Dashboard({session}: {session: Session}) {
+  const [currentScreen, setCurrentScreen] = useState('');
 
   return (
     <View style={styles.container}>
-      <Text h2>Dashboard Page</Text>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input label="Email" value={session?.user?.email} disabled />
-      </View>
-      <View style={styles.verticallySpaced}>
-        <Input
-          label="Username"
-          value={username || ''}
-          onChangeText={text => setUsername(text)}
-        />
-      </View>
-
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+      <View style={styles.ctaContainer}>
         <Button
-          title={loading ? 'Loading ...' : 'Update'}
-          onPress={() => updateProfile({username})}
-          disabled={loading}
-        />
+          onPress={() => setCurrentScreen('Profile')}
+          buttonStyle={{backgroundColor: colors.accent_peach}}
+          containerStyle={[
+            styles.navButton,
+            {backgroundColor: colors.accent_peach},
+          ]}>
+          <Icon name="user" color="black" type="font-awesome-5" solid />
+        </Button>
+        <Button
+          onPress={() => setCurrentScreen('AlpacaOrLlama')}
+          buttonStyle={{backgroundColor: colors.coolest_purple}}
+          containerStyle={[
+            styles.navButton,
+            {backgroundColor: colors.coolest_purple},
+          ]}>
+          <Icon name="gamepad" color="black" type="font-awesome-5" />
+        </Button>
       </View>
-
-      <View style={styles.verticallySpaced}>
-        <Button title="Sign Out" onPress={() => supabase.auth.signOut()} />
-      </View>
+      {currentScreen === 'AlpacaOrLlama' ? (
+        <AlpacaOrLlama />
+      ) : (
+        <Profile session={session} />
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
+    paddingTop: 90,
     padding: 12,
+    flex: 1,
+    backgroundColor: colors.pale_peach,
   },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: 'stretch',
+  navButton: {
+    borderRadius: 50,
+    borderWidth: 3,
+    width: 64,
+    height: 64,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  mt20: {
-    marginTop: 20,
+  ctaContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
 });
