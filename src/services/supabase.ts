@@ -4,9 +4,6 @@ import {createClient} from '@supabase/supabase-js';
 
 import config from '../config.json';
 
-const supabaseUrl = config.API_URL;
-const supabaseAnonKey = config.PUB_API_KEY;
-
 const EncryptedStorageAdapter = {
   getItem: (key: string) => {
     return EncryptedStorage.getItem(key);
@@ -19,12 +16,16 @@ const EncryptedStorageAdapter = {
   },
 };
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    storage: EncryptedStorageAdapter,
-    flowType: 'pkce',
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: false,
+export const supabase = createClient(
+  config.SUPABASE_API_URL,
+  config.SUPABASE_PUB_API_KEY,
+  {
+    auth: {
+      storage: EncryptedStorageAdapter,
+      flowType: 'pkce',
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false,
+    },
   },
-});
+);

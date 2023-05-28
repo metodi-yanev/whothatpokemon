@@ -1,5 +1,7 @@
-const IMAGE_API_URL_BASE = 'https://api.unsplash.com/';
-const IMAGE_API_AUTH = '?client_id=RC7Nq8tLS1I8QZFv4YF4XB94jVwsKngzt4hORWJPsZw';
+import config from '../config.json';
+
+const IMAGE_API_URL_BASE = config.IMAGE_API_URL;
+const IMAGE_API_AUTH = '?client_id=' + config.IMAGE_API_PUB_KEY;
 const ITEMS_PER_PAGE = '&per_page=100';
 
 const alpaca_colletion_url =
