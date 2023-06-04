@@ -1,14 +1,13 @@
-import {useState, useEffect} from 'react';
-import {StyleSheet, View, Alert} from 'react-native';
-import {Button, Input, Text} from '@rneui/themed';
-import {Session} from '@supabase/supabase-js';
+import {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {Button} from '@rneui/themed';
 import {Icon} from '@rneui/themed';
 
 import AlpacaOrLlama from './AlpacaOrLlama';
 import Profile from './Profile';
 import {colors} from '../theme';
 
-export default function Dashboard({session}: {session: Session}) {
+const Dashboard = () => {
   const [currentScreen, setCurrentScreen] = useState('');
 
   return (
@@ -33,14 +32,12 @@ export default function Dashboard({session}: {session: Session}) {
           <Icon name="gamepad" color="black" type="font-awesome-5" />
         </Button>
       </View>
-      {currentScreen === 'AlpacaOrLlama' ? (
-        <AlpacaOrLlama />
-      ) : (
-        <Profile session={session} />
-      )}
+      {currentScreen === 'AlpacaOrLlama' ? <AlpacaOrLlama /> : <Profile />}
     </View>
   );
-}
+};
+
+export default Dashboard;
 
 const styles = StyleSheet.create({
   container: {
