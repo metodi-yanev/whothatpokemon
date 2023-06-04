@@ -4,9 +4,32 @@ cd ios && pod install
 
 -- setup the Supabase project
 
-email_url https://jxyssgdwjwyvpuxtgdpj.supabase.co/storage/v1/object/public/general/istockphoto-1201041782-612x612.jpg
+-- execute SQL script
 
+-- set redirect URL for template email_url https://jxyssgdwjwyvpuxtgdpj.supabase.co/storage/v1/object/public/general/istockphoto-1201041782-612x612.jpg
 
 -- go over project structure
 
 -- create supabase client in lib/supabase
+
+-- complete context/Auth 
+
+-- try to create an account and login
+
+-- check for the new account in Profiles table
+
+-- complete hooks/useProfile 
+
+-- try to update username
+
+-- logout and log back in
+
+-- show THE GAME
+
+-- init GH repo and setup remote repo
+
+-- goto AppCenter and add new app
+
+-- Android build config ENV_VAR - name JAVA_HOME value $(JAVA_HOME_11_X64) 
+
+
