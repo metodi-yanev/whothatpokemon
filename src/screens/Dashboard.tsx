@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {Button} from '@rneui/themed';
 import {Icon} from '@rneui/themed';
 
-import AlpacaOrLlama from './AlpacaOrLlama';
+import Game from './Game';
 import Profile from './Profile';
 import {colors} from '../theme';
 
@@ -23,7 +23,7 @@ const Dashboard = () => {
           <Icon name="user" color="black" type="font-awesome-5" solid />
         </Button>
         <Button
-          onPress={() => setCurrentScreen('AlpacaOrLlama')}
+          onPress={() => setCurrentScreen('Game')}
           buttonStyle={{backgroundColor: colors.coolest_purple}}
           containerStyle={[
             styles.navButton,
@@ -32,7 +32,7 @@ const Dashboard = () => {
           <Icon name="gamepad" color="black" type="font-awesome-5" />
         </Button>
       </View>
-      {currentScreen === 'AlpacaOrLlama' ? <AlpacaOrLlama /> : <Profile />}
+      {currentScreen === 'AlpacaOrLlama' ? <Game /> : <Profile />}
     </View>
   );
 };
