@@ -3,7 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import {Button, Text, Image} from '@rneui/themed';
 import {useQuery} from '@tanstack/react-query';
 
-import {getAlpacas, getLlamas} from '../services/API';
+import {getAlpacas, getLlamas} from '../lib/API';
 import {colors} from '../theme';
 
 const AlpacaOrLlama = () => {

@@ -1,4 +1,4 @@
-npm install @rneui/base @rneui/themed react-native-vector-icons unsplash-js
+npm install @rneui/base @rneui/themed react-native-vector-icons unsplash-js @tanstack/react-query
 
 npm install @supabase/supabase-js react-native-encrypted-storage react-native-url-polyfill
 
@@ -32,3 +32,8 @@ cd ios && pod install
 -- setup the Supabase project
 
 email_url https://jxyssgdwjwyvpuxtgdpj.supabase.co/storage/v1/object/public/general/istockphoto-1201041782-612x612.jpg
+
+
+-- go over project structure
+
+-- create supabase client in lib/supabase

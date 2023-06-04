@@ -8,7 +8,7 @@ import {
 } from 'react';
 
 import {Session} from '@supabase/supabase-js';
-import {supabase} from '../services/supabase';
+import {supabase} from '../lib/supabase';
 import {Alert} from 'react-native';
 
 interface AuthContextType {

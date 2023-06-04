@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {Alert} from 'react-native';
-import {supabase} from '../services/supabase';
+import {supabase} from '../lib/supabase';
 
 import useAuth from '../context/Auth';
 
