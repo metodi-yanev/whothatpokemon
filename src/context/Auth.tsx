@@ -7,12 +7,10 @@ import {
   useState,
 } from 'react';
 
-import {Session} from '@supabase/supabase-js';
-import {supabase} from '../services/supabase';
 import {Alert} from 'react-native';
 
 interface AuthContextType {
-  session: Session | null;
+  session: {} | null;
   loading: boolean;
   error?: any;
   login: (email: string, password: string) => void;
@@ -22,16 +20,15 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-// Export the provider as we need to wrap the entire app with it
 export const AuthProvider = ({
   children,
 }: {
   children: ReactNode;
 }): JSX.Element => {
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<{} | null>(null);
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [loadingInitial, setLoadingInitial] = useState<boolean>(true);
+  const [loadingInitial, setLoadingInitial] = useState<boolean>(false);
 
   // Check if there is a currently active session
   // when the provider is mounted for the first time.
@@ -41,25 +38,7 @@ export const AuthProvider = ({
   // Finally, just signal the component that the initial load
   // is over.
 
-  useEffect(() => {
-    setError('');
-    supabase.auth
-      .getSession()
-      .then(({data: {session}}) => {
-        setSession(session);
-      })
-      .catch(error => {
-        setError(error.message);
-        Alert.alert(error.message);
-      })
-      .finally(() => {
-        setLoadingInitial(false);
-      });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   // Flags the component loading state and posts the login
   // data to the server.
@@ -70,40 +49,14 @@ export const AuthProvider = ({
   // Finally, just signal the component that loading the
   // loading state is over.
 
-  const login = async (email: string, password: string) => {
-    setLoading(true);
-    const {error} = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-
-    if (error) {
-      setError(error.message);
-      Alert.alert(error.message);
-    }
-    setLoading(false);
-  };
+  const login = async (email: string, password: string) => {};
 
   // Sends sign up details to the server. On success we just apply
   // the created user to the state.
-  const signUp = async (email: string, password: string) => {
-    setLoading(true);
-    const {error} = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-
-    if (error) {
-      setError(error.message);
-      Alert.alert(error.message);
-    }
-    setLoading(false);
-  };
+  const signUp = async (email: string, password: string) => {};
 
   // Call the logout endpoint.
-  const logout = () => {
-    supabase.auth.signOut();
-  };
+  const logout = () => {};
 
   // Make the provider update only when it should.
   // We only want to force re-renders if the user,

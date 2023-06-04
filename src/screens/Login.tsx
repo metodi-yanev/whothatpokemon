@@ -4,7 +4,7 @@ import {Button, Text} from '@rneui/themed';
 import {colors} from '../theme';
 import useAuth from '../context/Auth';
 
-export default function Login() {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {login, signUp, loading} = useAuth();
@@ -52,7 +52,9 @@ export default function Login() {
       </View>
     </View>
   );
-}
+};
+
+export default Login;
 
 const styles = StyleSheet.create({
   container: {

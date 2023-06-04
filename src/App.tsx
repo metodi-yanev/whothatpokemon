@@ -1,4 +1,3 @@
-import 'react-native-url-polyfill/auto';
 import {View, StyleSheet} from 'react-native';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
@@ -18,9 +17,7 @@ const queryClient = new QueryClient({
 const Main = () => {
   const {session} = useAuth();
   return (
-    <View style={styles.container}>
-      {session && session.user ? <Dashboard /> : <Login />}
-    </View>
+    <View style={styles.container}>{session ? <Dashboard /> : <Login />}</View>
   );
 };
 
