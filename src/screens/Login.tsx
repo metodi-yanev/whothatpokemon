@@ -1,35 +1,13 @@
 import React, {useState} from 'react';
-import {Alert, StyleSheet, View, TextInput, Image} from 'react-native';
-import {supabase} from '../services/supabase';
+import {StyleSheet, View, TextInput, Image} from 'react-native';
 import {Button, Text} from '@rneui/themed';
 import {colors} from '../theme';
+import useAuth from '../context/Auth';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  async function signInWithEmail() {
-    setLoading(true);
-    const {error} = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-
-    if (error) Alert.alert(error.message);
-    setLoading(false);
-  }
-
-  async function signUpWithEmail() {
-    setLoading(true);
-    const {error} = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-
-    if (error) Alert.alert(error.message);
-    setLoading(false);
-  }
+  const {login, signUp, loading} = useAuth();
 
   return (
     <View style={styles.container}>
@@ -60,7 +38,7 @@ export default function Login() {
           titleStyle={styles.buttonTitle}
           title="Sign in"
           disabled={loading}
-          onPress={() => signInWithEmail()}
+          onPress={() => login(email, password)}
         />
       </View>
       <View style={styles.verticallySpaced}>
@@ -69,7 +47,7 @@ export default function Login() {
           titleStyle={styles.buttonTitle}
           title="Sign up"
           disabled={loading}
-          onPress={() => signUpWithEmail()}
+          onPress={() => signUp(email, password)}
         />
       </View>
     </View>

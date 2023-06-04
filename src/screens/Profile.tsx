@@ -1,68 +1,12 @@
-import {useState, useEffect} from 'react';
-import {supabase} from '../services/supabase';
-import {StyleSheet, View, Alert, TextInput} from 'react-native';
+import {StyleSheet, View, TextInput} from 'react-native';
 import {Button, Text} from '@rneui/themed';
-import {Session} from '@supabase/supabase-js';
 import {colors} from '../theme';
+import useAuth from '../context/Auth';
+import useProfile from '../hooks/useProfile';
 
-export default function Account({session}: {session: Session}) {
-  const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState('');
-
-  useEffect(() => {
-    if (session) getProfile();
-  }, [session]);
-
-  async function getProfile() {
-    try {
-      setLoading(true);
-      if (!session?.user) throw new Error('No user on the session!');
-
-      let {data, error, status} = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('id', session?.user.id)
-        .single();
-      if (error && status !== 406) {
-        throw error;
-      }
-
-      if (data) {
-        setUsername(data.username);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        Alert.alert(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function updateProfile({username}: {username: string}) {
-    try {
-      setLoading(true);
-      if (!session?.user) throw new Error('No user on the session!');
-
-      const updates = {
-        id: session?.user.id,
-        username,
-        updated_at: new Date(),
-      };
-
-      let {error} = await supabase.from('profiles').upsert(updates);
-
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        Alert.alert(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
+const Profile = () => {
+  const {logout} = useAuth();
+  const {setProfile, updateProfile, profile, loading} = useProfile();
 
   return (
     <View style={styles.container}>
@@ -70,7 +14,7 @@ export default function Account({session}: {session: Session}) {
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <TextInput
           placeholder="email"
-          value={session?.user?.email}
+          value={profile?.email}
           editable={false}
           style={[styles.input, {color: 'grey'}]}
         />
@@ -78,8 +22,10 @@ export default function Account({session}: {session: Session}) {
       <View style={styles.verticallySpaced}>
         <TextInput
           placeholder="username"
-          value={username || ''}
-          onChangeText={text => setUsername(text)}
+          value={profile?.username}
+          onChangeText={username =>
+            setProfile(profile => ({...profile, username}))
+          }
           style={styles.input}
         />
       </View>
@@ -89,7 +35,7 @@ export default function Account({session}: {session: Session}) {
           buttonStyle={styles.button}
           titleStyle={styles.buttonTitle}
           title={loading ? 'Loading ...' : 'Update'}
-          onPress={() => updateProfile({username})}
+          onPress={() => updateProfile({username: profile.username})}
           disabled={loading}
         />
       </View>
@@ -99,12 +45,14 @@ export default function Account({session}: {session: Session}) {
           buttonStyle={styles.button}
           titleStyle={styles.buttonTitle}
           title="Sign Out"
-          onPress={() => supabase.auth.signOut()}
+          onPress={logout}
         />
       </View>
     </View>
   );
-}
+};
+
+export default Profile;
 
 const styles = StyleSheet.create({
   container: {
