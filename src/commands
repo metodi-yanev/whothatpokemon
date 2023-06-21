@@ -6,19 +6,19 @@ cd ios && pod install
 
 -- execute SQL script
 
--- set redirect URL for template email_url https://jxyssgdwjwyvpuxtgdpj.supabase.co/storage/v1/object/public/general/istockphoto-1201041782-612x612.jpg
+-- set redirect URL for template email_url
 
 -- go over project structure
 
 -- create supabase client in lib/supabase
 
--- complete context/Auth 
+-- complete context/Auth
 
 -- try to create an account and login
 
 -- check for the new account in Profiles table
 
--- complete hooks/useProfile 
+-- complete hooks/useProfile
 
 -- try to update username
 
@@ -28,8 +28,13 @@ cd ios && pod install
 
 -- init GH repo and setup remote repo
 
+    git init
+    git add .
+    git commit -m "initial commit for the best app ever"
+    git remote add origin https://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@github.com/MetodiYanev/DevTalks.git
+    git branch -M main
+    git push -u origin main
+
 -- goto AppCenter and add new app
 
--- Android build config ENV_VAR - name JAVA_HOME value $(JAVA_HOME_11_X64) 
-
-
+-- Android build config ENV_VAR - name JAVA_HOME value $(JAVA_HOME_11_X64)

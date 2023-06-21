@@ -56,9 +56,13 @@ export const AuthProvider = ({
         setLoadingInitial(false);
       });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
+    const {data: listener} = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+      },
+    );
+
+    return listener?.subscription.unsubscribe;
   }, []);
 
   // Flags the component loading state and posts the login
